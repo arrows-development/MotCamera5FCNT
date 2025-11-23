@@ -1,0 +1,19 @@
+precision highp float;
+varying highp vec2 v_TextureCoord;
+uniform float u_Opacity;
+uniform vec4 u_Color;
+uniform vec2 u_Angles;
+uniform vec2 u_Size;   //x = inner radius, y = outer radius
+
+void main() {
+    float alpha = 0.0;
+    vec2 textureCoord0 = 2.0 * (v_TextureCoord - vec2(0.5, 0.5));
+    float len = length(textureCoord0);
+    if (len <= u_Size.y && len >= u_Size.x) {
+        float sign = u_Angles.x > u_Angles.y ? 1.0 : -1.0;
+        float angle = 180.0 + sign * degrees(atan(textureCoord0.x, textureCoord0.y));
+        if (sign < 0.0 && angle > u_Angles.x && angle < u_Angles.y
+            || sign > 0.0 && angle > u_Angles.y && angle < u_Angles.x) alpha = 1.0;
+    }
+    gl_FragColor = u_Color * u_Opacity * alpha;
+}

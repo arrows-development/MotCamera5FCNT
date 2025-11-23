@@ -1,0 +1,61 @@
+.class public final enum Lg/i;
+.super Ljava/lang/Enum;
+.source "SourceFile"
+
+
+# static fields
+.field public static final a:La/l;
+
+.field public static final enum b:Lg/i;
+
+.field public static final enum c:Lg/i;
+
+
+# direct methods
+.method public static constructor <clinit>()V
+    .locals 4
+
+    new-instance v0, Lg/i;
+
+    const-string v1, "STROKE"
+
+    const/4 v2, 0x0
+
+    invoke-direct {v0, v1, v2}, Lg/i;-><init>(Ljava/lang/String;I)V
+
+    sput-object v0, Lg/i;->b:Lg/i;
+
+    new-instance v1, Lg/i;
+
+    const-string v2, "FILL"
+
+    const/4 v3, 0x1
+
+    invoke-direct {v1, v2, v3}, Lg/i;-><init>(Ljava/lang/String;I)V
+
+    sput-object v1, Lg/i;->c:Lg/i;
+
+    filled-new-array {v0, v1}, [Lg/i;
+
+    move-result-object v0
+
+    new-instance v1, Lkotlin/enums/EnumEntriesList;
+
+    invoke-direct {v1, v0}, Lkotlin/enums/EnumEntriesList;-><init>([Ljava/lang/Enum;)V
+
+    new-instance v0, La/l;
+
+    invoke-direct {v0}, La/l;-><init>()V
+
+    sput-object v0, Lg/i;->a:La/l;
+
+    return-void
+.end method
+
+.method public constructor <init>(Ljava/lang/String;I)V
+    .locals 0
+
+    invoke-direct {p0, p1, p2}, Ljava/lang/Enum;-><init>(Ljava/lang/String;I)V
+
+    return-void
+.end method

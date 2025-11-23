@@ -1,0 +1,326 @@
+.class public final Lcom/airbnb/lottie/network/NetworkFetcher;
+.super Ljava/lang/Object;
+.source "SourceFile"
+
+
+# instance fields
+.field public final fetcher:Landroidx/transition/Transition$1;
+
+.field public final networkCache:Lkotlin/DeepRecursiveFunction;
+
+
+# direct methods
+.method public constructor <init>(Lkotlin/DeepRecursiveFunction;Landroidx/transition/Transition$1;)V
+    .locals 0
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+
+    iput-object p1, p0, Lcom/airbnb/lottie/network/NetworkFetcher;->networkCache:Lkotlin/DeepRecursiveFunction;
+
+    iput-object p2, p0, Lcom/airbnb/lottie/network/NetworkFetcher;->fetcher:Landroidx/transition/Transition$1;
+
+    return-void
+.end method
+
+
+# virtual methods
+.method public final fromInputStream(Landroid/content/Context;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+    .locals 5
+
+    if-nez p4, :cond_0
+
+    const-string p4, "application/json"
+
+    :cond_0
+    const-string v0, "application/zip"
+
+    invoke-virtual {p4, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    const/4 v1, 0x0
+
+    iget-object p0, p0, Lcom/airbnb/lottie/network/NetworkFetcher;->networkCache:Lkotlin/DeepRecursiveFunction;
+
+    if-nez v0, :cond_8
+
+    const-string v0, "application/x-zip"
+
+    invoke-virtual {p4, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_8
+
+    const-string v0, "application/x-zip-compressed"
+
+    invoke-virtual {p4, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result v0
+
+    if-nez v0, :cond_8
+
+    const-string v0, "\\?"
+
+    invoke-virtual {p2, v0}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+
+    move-result-object v2
+
+    const/4 v3, 0x0
+
+    aget-object v2, v2, v3
+
+    const-string v4, ".lottie"
+
+    invoke-virtual {v2, v4}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result v2
+
+    if-eqz v2, :cond_1
+
+    goto :goto_3
+
+    :cond_1
+    const-string p1, "application/gzip"
+
+    invoke-virtual {p4, p1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result p1
+
+    if-nez p1, :cond_5
+
+    const-string p1, "application/x-gzip"
+
+    invoke-virtual {p4, p1}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+
+    move-result p1
+
+    if-nez p1, :cond_5
+
+    invoke-virtual {p2, v0}, Ljava/lang/String;->split(Ljava/lang/String;)[Ljava/lang/String;
+
+    move-result-object p1
+
+    aget-object p1, p1, v3
+
+    const-string p4, ".tgs"
+
+    invoke-virtual {p1, p4}, Ljava/lang/String;->endsWith(Ljava/lang/String;)Z
+
+    move-result p1
+
+    if-eqz p1, :cond_2
+
+    goto :goto_1
+
+    :cond_2
+    invoke-static {}, Lcom/airbnb/lottie/utils/Logger;->debug()V
+
+    sget-object p1, Lcom/airbnb/lottie/network/FileExtension;->JSON:Lcom/airbnb/lottie/network/FileExtension;
+
+    if-eqz p5, :cond_4
+
+    if-nez p0, :cond_3
+
+    goto :goto_0
+
+    :cond_3
+    invoke-virtual {p0, p2, p3, p1}, Lkotlin/DeepRecursiveFunction;->writeTempCacheFile(Ljava/lang/String;Ljava/io/InputStream;Lcom/airbnb/lottie/network/FileExtension;)Ljava/io/File;
+
+    move-result-object p3
+
+    new-instance p4, Ljava/io/FileInputStream;
+
+    invoke-virtual {p3}, Ljava/io/File;->getAbsolutePath()Ljava/lang/String;
+
+    move-result-object p3
+
+    invoke-direct {p4, p3}, Ljava/io/FileInputStream;-><init>(Ljava/lang/String;)V
+
+    invoke-static {p4, p2}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromJsonInputStreamSync(Ljava/io/InputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p3
+
+    goto :goto_6
+
+    :cond_4
+    :goto_0
+    invoke-static {p3, v1}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromJsonInputStreamSync(Ljava/io/InputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p3
+
+    goto :goto_6
+
+    :cond_5
+    :goto_1
+    invoke-static {}, Lcom/airbnb/lottie/utils/Logger;->debug()V
+
+    sget-object p1, Lcom/airbnb/lottie/network/FileExtension;->GZIP:Lcom/airbnb/lottie/network/FileExtension;
+
+    if-eqz p5, :cond_7
+
+    if-nez p0, :cond_6
+
+    goto :goto_2
+
+    :cond_6
+    invoke-virtual {p0, p2, p3, p1}, Lkotlin/DeepRecursiveFunction;->writeTempCacheFile(Ljava/lang/String;Ljava/io/InputStream;Lcom/airbnb/lottie/network/FileExtension;)Ljava/io/File;
+
+    move-result-object p3
+
+    new-instance p4, Ljava/util/zip/GZIPInputStream;
+
+    new-instance v0, Ljava/io/FileInputStream;
+
+    invoke-direct {v0, p3}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
+
+    invoke-direct {p4, v0}, Ljava/util/zip/GZIPInputStream;-><init>(Ljava/io/InputStream;)V
+
+    invoke-static {p4, p2}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromJsonInputStreamSync(Ljava/io/InputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p3
+
+    goto :goto_6
+
+    :cond_7
+    :goto_2
+    new-instance p4, Ljava/util/zip/GZIPInputStream;
+
+    invoke-direct {p4, p3}, Ljava/util/zip/GZIPInputStream;-><init>(Ljava/io/InputStream;)V
+
+    invoke-static {p4, v1}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromJsonInputStreamSync(Ljava/io/InputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p3
+
+    goto :goto_6
+
+    :cond_8
+    :goto_3
+    invoke-static {}, Lcom/airbnb/lottie/utils/Logger;->debug()V
+
+    sget-object p4, Lcom/airbnb/lottie/network/FileExtension;->ZIP:Lcom/airbnb/lottie/network/FileExtension;
+
+    if-eqz p5, :cond_a
+
+    if-nez p0, :cond_9
+
+    goto :goto_4
+
+    :cond_9
+    invoke-virtual {p0, p2, p3, p4}, Lkotlin/DeepRecursiveFunction;->writeTempCacheFile(Ljava/lang/String;Ljava/io/InputStream;Lcom/airbnb/lottie/network/FileExtension;)Ljava/io/File;
+
+    move-result-object p3
+
+    new-instance v0, Ljava/util/zip/ZipInputStream;
+
+    new-instance v1, Ljava/io/FileInputStream;
+
+    invoke-direct {v1, p3}, Ljava/io/FileInputStream;-><init>(Ljava/io/File;)V
+
+    invoke-direct {v0, v1}, Ljava/util/zip/ZipInputStream;-><init>(Ljava/io/InputStream;)V
+
+    invoke-static {p1, v0, p2}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromZipStreamSync(Landroid/content/Context;Ljava/util/zip/ZipInputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p1
+
+    goto :goto_5
+
+    :cond_a
+    :goto_4
+    new-instance v0, Ljava/util/zip/ZipInputStream;
+
+    invoke-direct {v0, p3}, Ljava/util/zip/ZipInputStream;-><init>(Ljava/io/InputStream;)V
+
+    invoke-static {p1, v0, v1}, Lcom/airbnb/lottie/LottieCompositionFactory;->fromZipStreamSync(Landroid/content/Context;Ljava/util/zip/ZipInputStream;Ljava/lang/String;)Lcom/airbnb/lottie/LottieResult;
+
+    move-result-object p1
+
+    :goto_5
+    move-object p3, p1
+
+    move-object p1, p4
+
+    :goto_6
+    if-eqz p5, :cond_b
+
+    iget-object p4, p3, Lcom/airbnb/lottie/LottieResult;->value:Ljava/lang/Object;
+
+    if-eqz p4, :cond_b
+
+    if-eqz p0, :cond_b
+
+    const/4 p4, 0x1
+
+    invoke-static {p2, p1, p4}, Lkotlin/DeepRecursiveFunction;->filenameForUrl(Ljava/lang/String;Lcom/airbnb/lottie/network/FileExtension;Z)Ljava/lang/String;
+
+    move-result-object p1
+
+    new-instance p2, Ljava/io/File;
+
+    invoke-virtual {p0}, Lkotlin/DeepRecursiveFunction;->parentDir()Ljava/io/File;
+
+    move-result-object p0
+
+    invoke-direct {p2, p0, p1}, Ljava/io/File;-><init>(Ljava/io/File;Ljava/lang/String;)V
+
+    invoke-virtual {p2}, Ljava/io/File;->getAbsolutePath()Ljava/lang/String;
+
+    move-result-object p0
+
+    const-string p1, ".temp"
+
+    const-string p4, ""
+
+    invoke-virtual {p0, p1, p4}, Ljava/lang/String;->replace(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;
+
+    move-result-object p0
+
+    new-instance p1, Ljava/io/File;
+
+    invoke-direct {p1, p0}, Ljava/io/File;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p2, p1}, Ljava/io/File;->renameTo(Ljava/io/File;)Z
+
+    move-result p0
+
+    invoke-virtual {p1}, Ljava/lang/Object;->toString()Ljava/lang/String;
+
+    invoke-static {}, Lcom/airbnb/lottie/utils/Logger;->debug()V
+
+    if-nez p0, :cond_b
+
+    new-instance p0, Ljava/lang/StringBuilder;
+
+    const-string p4, "Unable to rename cache file "
+
+    invoke-direct {p0, p4}, Ljava/lang/StringBuilder;-><init>(Ljava/lang/String;)V
+
+    invoke-virtual {p2}, Ljava/io/File;->getAbsolutePath()Ljava/lang/String;
+
+    move-result-object p2
+
+    invoke-virtual {p0, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string p2, " to "
+
+    invoke-virtual {p0, p2}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p1}, Ljava/io/File;->getAbsolutePath()Ljava/lang/String;
+
+    move-result-object p1
+
+    invoke-virtual {p0, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    const-string p1, "."
+
+    invoke-virtual {p0, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    invoke-virtual {p0}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p0
+
+    invoke-static {p0}, Lcom/airbnb/lottie/utils/Logger;->warning(Ljava/lang/String;)V
+
+    :cond_b
+    return-object p3
+.end method

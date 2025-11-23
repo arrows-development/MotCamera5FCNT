@@ -1,0 +1,22 @@
+precision mediump float;
+varying highp vec2 v_TextureCoord;
+uniform sampler2D u_Texture;
+uniform float u_Opacity;
+uniform vec4 u_ColorBackground;
+uniform int u_Mask;
+uniform vec2 u_Angles;
+
+void main() {
+    vec4 sample = texture2D(u_Texture, v_TextureCoord);
+    sample *= u_Opacity;
+    if (u_Mask == 1) {
+        float alpha = 0.0;
+        vec2 textureCoord0 = 2.0 * (v_TextureCoord - vec2(0.5, 0.5));
+        float sign = u_Angles.x > u_Angles.y ? 1.0 : -1.0;
+        float angle = 180.0 + sign * degrees(atan(textureCoord0.x, textureCoord0.y));
+        if (sign < 0.0 && angle > u_Angles.x && angle < u_Angles.y
+            || sign > 0.0 && angle > u_Angles.y && angle < u_Angles.x) alpha = 1.0;
+        sample *= alpha;
+    }
+    gl_FragColor = sample + ((1.0 - sample.a) * u_ColorBackground);
+}
